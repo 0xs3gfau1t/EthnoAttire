@@ -1,4 +1,4 @@
-ornaments = {
+const ornaments = {
     0: {
         name: 'Hāku patāsi',
         culture: 'Newari',
@@ -72,3 +72,5 @@ ornaments = {
         description: '',
     },
 }
+
+export { ornaments }
