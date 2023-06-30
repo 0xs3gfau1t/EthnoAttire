@@ -10,23 +10,11 @@ import InfoList from '../components/InfoList'
 import { Link } from 'react-router-dom'
 import { BoundingBox } from '../components/BoundingBox'
 
-function unique(arr) {
-    const mp = {}
-    const uniqueArr = []
-    for (let i of arr) {
-        if (mp[i] === undefined) {
-            mp[i] = true
-            uniqueArr.push(i)
-        }
-    }
-    return uniqueArr
-}
-
 export default function Image() {
     const [targetImage, setTargetImage] = useState(null)
     const [imageFile, setImageFile] = useState(null)
 
-    const [predictedClasses, setPredictedClasses] = useState([])
+    const [predictedClasses, setPredictedClasses] = useState(null)
     const [detectedItems, setDetectedItems] = useState([])
     const [detected, setDetected] = useState(false)
     const [noInfo, setNoInfo] = useState(null)
@@ -34,6 +22,21 @@ export default function Image() {
         name: null,
         id: null,
     })
+
+    const hideClass = id => {
+        setPredictedClasses(oldData => {
+            const newData = {}
+            for (let i in oldData) {
+                const d = oldData[i]
+                newData[d.classId] = {
+                    classId: d.classId,
+                    name: d.name,
+                    show: d.classId == id ? !d.show : d.show,
+                }
+            }
+            return newData
+        })
+    }
 
     const handleChange = e => {
         const reader = new FileReader()
@@ -53,11 +56,13 @@ export default function Image() {
         })
             .then(r => r.json())
             .then(r => {
-                const tempBbox = []
-                const tempPredictedClass = []
+                const tempPredictedClass = {}
                 for (let i of r.frame) {
-                    tempBbox.push(i.box)
-                    tempPredictedClass.push(i.name)
+                    tempPredictedClass[i.classId] = {
+                        classId: i.classId,
+                        name: i.name,
+                        show: true,
+                    }
                 }
                 setPredictedClasses(tempPredictedClass)
                 setDetectedItems(r.frame)
@@ -91,10 +96,6 @@ export default function Image() {
             })
     }
 
-    function classClickHandler(name) {
-        setNoInfo(name)
-    }
-
     return (
         <>
             {targetImage === null ? (
@@ -115,14 +116,15 @@ export default function Image() {
                         {detected && (
                             <>
                                 {detectedItems.map((item, idx) => {
-                                    return (
-                                        <BoundingBox
-                                            key={idx}
-                                            idx={idx}
-                                            detection={item}
-                                            relativePos={bounding}
-                                        />
-                                    )
+                                    if (predictedClasses[item.classId].show)
+                                        return (
+                                            <BoundingBox
+                                                key={idx}
+                                                detection={item}
+                                                onClick={setNoInfo}
+                                                relativePos={bounding}
+                                            />
+                                        )
                                 })}
                             </>
                         )}
@@ -137,7 +139,7 @@ export default function Image() {
                                 size="2em"
                                 onClick={() => {
                                     setTargetImage(null)
-                                    setPredictedClasses([])
+                                    setPredictedClasses(null)
                                     setDetectedItems([])
                                     setDetected(false)
                                 }}
@@ -150,24 +152,27 @@ export default function Image() {
                                     size="1.5rem"
                                 />
                                 <div
-                                    className={`border border-black border-x-4 border-t-4 flex flex-col gap-y-2 rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${
-                                        noInfo != null ? 'pt-0' : ''
-                                    }`}
+                                    className={`border border-black border-x-4 border-t-4 flex flex-col gap-y-2 rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${noInfo != null ? 'pt-0' : ''
+                                        }`}
                                 >
                                     {noInfo === null ? (
                                         <>
                                             <span className="border shadow-md px-3 py-2 w-fit rounded-lg self-center">
                                                 <Link
-                                                    to={`/culture/${inferedEthnicity.id}`}
+                                                    to={`/culture/${inferedEthnicity?.id}`}
                                                 >
                                                     Ethnicity:{' '}
-                                                    {inferedEthnicity.name}
+                                                    {inferedEthnicity?.name ||
+                                                        "Couldn't Detect"}
                                                 </Link>
                                             </span>
                                             <hr className="border-0 h-[4px] bg-slate-200 w-1/2 self-center" />
                                             <DetectionList
-                                                items={unique(predictedClasses)}
-                                                handleClick={classClickHandler}
+                                                items={Object.values(
+                                                    predictedClasses
+                                                )}
+                                                onInfo={setNoInfo}
+                                                handleClick={hideClass}
                                             />
                                         </>
                                     ) : (

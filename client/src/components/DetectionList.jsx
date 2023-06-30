@@ -1,14 +1,31 @@
-export default function DetectionList({ items, handleClick }) {
+import { AiOutlineInfoCircle } from 'react-icons/ai'
+
+export default function DetectionList({ items, handleClick, onInfo }) {
+    if (!items || items?.length == 0)
+        return <div className="w-full text-center">Nothing detected</div>
+
     return (
         <ul className="flex flex-wrap overflow-scroll gap-3 pt-3">
             {items?.map((item, index) => (
-                <li
-                    onClick={() => handleClick(item)}
+                <div
                     key={index}
-                    className="border w-fit px-3 py-1 rounded-md"
+                    className={`flex flex-row gap-2 items-center border border-b-2 w-fit px-3 py-1 rounded-t-md ${item.show ? 'border-b-green-500' : 'border-b-red-500'
+                        }`}
                 >
-                    {item}
-                </li>
+                    <li
+                        onClick={() => handleClick(item.classId)}
+                        className="cursor-pointer"
+                    >
+                        <span className="text-sm font-bold">
+                            {item.classId}
+                        </span>
+                        : <span>{item.name}</span>
+                    </li>
+                    <AiOutlineInfoCircle
+                        onClick={() => onInfo(item.name)}
+                        className="cursor-pointer"
+                    />
+                </div>
             ))}
         </ul>
     )
