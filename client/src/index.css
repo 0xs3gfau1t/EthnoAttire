@@ -8,6 +8,26 @@
     }
     body,
     #root {
-        @apply h-full w-full;
+        @apply h-full w-full m-1;
     }
+}
+.section {
+    @apply bg-gray-200 rounded flex flex-col gap-2  overflow-hidden;
+}
+.section h2 {
+    margin-left: 1vw;
+}
+
+.section p {
+    margin-left: 2vw;
+}
+
+.collapsible .content {
+    padding: 6px;
+    background-color: #eeeeee;
+}
+.collapsible .header {
+    background-color: #dddddd;
+    padding: 6px;
+    cursor: pointer;
 }
