@@ -7,7 +7,7 @@ const Layout = () => {
             <main className="flex-grow">
                 <Outlet />
             </main>
-            <footer className="h-20 bg-red-400">
+            <footer className="h-20 border-t border-black">
                 <Nav />
             </footer>
         </div>
