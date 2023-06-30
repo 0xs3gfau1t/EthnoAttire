@@ -14,6 +14,7 @@ export default ({ mode }) => {
                     target: `http://${env.VITE_BACKEND_HOST || 'localhost'}:${
                         env.VITE_BACKEND_PORT || 3000
                     }`,
+                    changeOrigin: true,
                 },
             },
         },

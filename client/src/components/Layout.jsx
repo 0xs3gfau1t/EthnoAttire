@@ -4,7 +4,7 @@ import Nav from './Nav'
 const Layout = () => {
     return (
         <div className="flex flex-col w-full h-full">
-            <main className="flex-grow">
+            <main className="h-[calc(100%-5rem)]">
                 <Outlet />
             </main>
             <footer className="h-20 border-t border-black">
