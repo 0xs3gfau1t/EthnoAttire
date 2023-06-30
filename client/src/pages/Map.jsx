@@ -28,25 +28,25 @@ const Map = ({ toHigh }) => {
             })
     }, [])
 
-    const givenCoordinate = { lat: 29.2089, lng: 81.7349 }
-
     const mapStyle = {
-        height: '600px',
+        height: '300px',
         width: '100%',
     }
 
-    const mapCenter = [28.3949, 84.124]
-    const zoomLevel = 7
+    const mapCenter = [toHigh[0][1], toHigh[0][0]]
+    const zoomLevel = 6.5
 
     const districtStyle = {
-        color: 'gray',
+        color: 'red',
+        fillColor: 'blue',
         weight: 1,
-        fillOpacity: 0.2,
+        fillOpacity: 0.5,
     }
 
     const highlightStyle = {
         color: 'red',
         weight: 2,
+        fillColor: 'orange',
         fillOpacity: 0.8,
     }
 
@@ -64,7 +64,7 @@ const Map = ({ toHigh }) => {
                 district.properties.isHighlighted = isInside
             })
         }
-    }, [districtsData, givenCoordinate, loading])
+    }, [districtsData, toHigh, loading])
 
     if (loading) return <h1 className="text-center text-2xl">Loading Map</h1>
 
