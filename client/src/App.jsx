@@ -1,15 +1,20 @@
-import { Route, Routes } from "react-router-dom"
-import Nav from './components/Nav'
+import { Route, Routes } from 'react-router-dom'
+import Layout from './components/Layout'
+import HomePage from './pages/Home'
+import ImagePage from './pages/Image'
+import VideoPage from './pages/Video'
+import InfoPage from './pages/Info'
 
 export default function App() {
     return (
         <>
-            <Nav/>
             <Routes>
-                <Route path='/' element={<>Home</>}/>
-                <Route path='/image' element={<>Image</>}/>
-                <Route path='/video' element={<>Video</>}/>
-                <Route path='/info' element={<>Info</>}/>
+                <Route path="/" element={<Layout />}>
+                    <Route path="" element={<HomePage />} />
+                    <Route path="image" element={<ImagePage />} />
+                    <Route path="video" element={<VideoPage />} />
+                    <Route path="info" element={<InfoPage />} />
+                </Route>
             </Routes>
         </>
     )
