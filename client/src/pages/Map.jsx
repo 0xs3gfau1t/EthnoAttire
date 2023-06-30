@@ -44,7 +44,7 @@ const Map = () => {
     }
 
     useEffect(() => {
-        if (districtsData) {
+        if (districtsData && !loading) {
             districtsData.features.forEach(district => {
                 const isInside = turf.booleanPointInPolygon(
                     turf.point([givenCoordinate.lng, givenCoordinate.lat]),
@@ -53,7 +53,9 @@ const Map = () => {
                 district.properties.isHighlighted = isInside
             })
         }
-    }, [districtsData, givenCoordinate])
+    }, [districtsData, givenCoordinate, loading])
+
+    if (loading) return <h1 className="text-center text-2xl">Loading Map</h1>
 
     return (
         <MapContainer style={mapStyle} center={mapCenter} zoom={zoomLevel}>
