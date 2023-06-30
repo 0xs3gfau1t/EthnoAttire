@@ -3,11 +3,11 @@ import Nav from './Nav'
 
 const Layout = () => {
     return (
-        <div className=''>
-            <main>
+        <div className="flex flex-col w-full h-full">
+            <main className="flex-grow">
                 <Outlet />
             </main>
-            <footer>
+            <footer className="h-20 bg-red-400">
                 <Nav />
             </footer>
         </div>

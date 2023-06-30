@@ -4,6 +4,7 @@ import HomePage from './pages/Home'
 import ImagePage from './pages/Image'
 import VideoPage from './pages/Video'
 import InfoPage from './pages/Info'
+import './index.css'
 
 export default function App() {
     return (

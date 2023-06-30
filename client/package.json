@@ -11,7 +11,9 @@
         "format": "prettier --write ."
     },
     "dependencies": {
+        "autoprefixer": "^10.4.14",
         "dotenv": "^16.3.1",
+        "postcss": "^8.4.24",
         "react": "^18.2.0",
         "react-dom": "^18.2.0",
         "react-icons": "^4.10.1",
