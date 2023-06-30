@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as turf from '@turf/turf' // Import all functions from turf library
@@ -14,6 +14,7 @@ const Map = ({ toHigh }) => {
     // ]
     const [districtsData, setDistrictsData] = useState(null)
     const [loading, setLoading] = useState(true) // Add loading state
+    const [selectedDistrict, setSelectedDistrict] = useState(null)
 
     useEffect(() => {
         fetch('../../data/nepal-districts-new.geojson')
@@ -68,6 +69,28 @@ const Map = ({ toHigh }) => {
 
     if (loading) return <h1 className="text-center text-2xl">Loading Map</h1>
 
+    const onEachDistrict = (district, layer) => {
+        layer.on({
+            click: () => {
+                setSelectedDistrict(district.properties.DIST_EN) // Store the clicked district name in state
+            },
+            mouseover: () => {
+                if (district.properties.isHighlighted) {
+                    layer.openPopup() // Show the popup on mouseover for highlighted districts
+                }
+            },
+            mouseout: () => {
+                if (district.properties.isHighlighted) {
+                    layer.closePopup() // Close the popup on mouseout for highlighted districts
+                }
+            },
+        })
+
+        if (district.properties.isHighlighted) {
+            layer.bindPopup(district.properties.NAME) // Show the district name in the popup for highlighted districts
+        }
+    }
+
     return (
         <MapContainer style={mapStyle} center={mapCenter} zoom={zoomLevel}>
             <TileLayer
@@ -84,6 +107,7 @@ const Map = ({ toHigh }) => {
                                 ? highlightStyle
                                 : null),
                         })}
+                        onEachFeature={onEachDistrict}
                     />
                 )}
         </MapContainer>
