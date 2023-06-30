@@ -11,7 +11,6 @@ const inferEthnicity = detections => {
     }, {})
 
     const entries = Object.entries(totalConf)
-    console.log({ detections, totalConf, entries })
     if (!entries || entries.length == 0) return null
 
     let max = { culture: entries[0][0], value: entries[0][1] }

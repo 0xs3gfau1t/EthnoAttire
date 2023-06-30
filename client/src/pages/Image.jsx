@@ -7,6 +7,7 @@ import inferEthnicity from '../utils/inferCulture'
 import DetectionList from '../components/DetectionList'
 import { BiSolidUpArrow } from 'react-icons/bi'
 import InfoList from '../components/InfoList'
+import { BoundingBox } from '../components/BoundingBox'
 
 function unique(arr) {
     const mp = {}
@@ -109,34 +110,14 @@ export default function Image() {
                         {detected && (
                             <>
                                 {detectedItems.map((item, idx) => {
-                                    const a = (
-                                        <li
-                                            className="border border-black absolute list-none"
-                                            style={{
-                                                left: `${
-                                                    bounding.left +
-                                                    item.box[0] * bounding.width
-                                                }px`,
-                                                top: `${
-                                                    bounding.top +
-                                                    item.box[1] *
-                                                        bounding.height
-                                                }px`,
-                                                right: `${
-                                                    bounding.right +
-                                                    (1 - item.box[2]) *
-                                                        bounding.width
-                                                }px`,
-                                                bottom: `${
-                                                    bounding.bottom +
-                                                    (1 - item.box[3]) *
-                                                        bounding.height
-                                                }px`,
-                                            }}
+                                    return (
+                                        <BoundingBox
                                             key={idx}
+                                            idx={idx}
+                                            detection={item}
+                                            relativePos={bounding}
                                         />
                                     )
-                                    return a
                                 })}
                             </>
                         )}
