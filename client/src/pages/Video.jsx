@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import VideoResult from '../components/VideoResult'
-import { dummy_response } from '../utils/constants'
-import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { AiOutlineCloudUpload, AiOutlineSync } from 'react-icons/ai'
 import { GrClear } from 'react-icons/gr'
 import UploadCard from '../components/UploadCard'
 
@@ -9,6 +8,7 @@ const VideoPage = () => {
     const [file, setFile] = useState()
     const [videoBlob, setVideoBlob] = useState()
     const [predictedResult, setPredictedResult] = useState()
+    const [predicting, setPredicting] = useState(false)
 
     const loadVideo = e => {
         setFile(e.target.files[0])
@@ -18,6 +18,7 @@ const VideoPage = () => {
     }
 
     const predict = () => {
+        setPredicting(true)
         const data = new FormData()
         data.append('vid', file)
         fetch('/api/video', { method: 'POST', body: data }).then(async res => {
@@ -25,7 +26,7 @@ const VideoPage = () => {
                 const data = await res.json()
                 setPredictedResult(data)
             }
-        })
+        }).finally( () => setPredicting(false))
     }
 
     if (predictedResult != undefined)
@@ -49,7 +50,7 @@ const VideoPage = () => {
                         />
                     </div>
                     <div className="flex gap-x-5 justify-center">
-                        <AiOutlineCloudUpload size="2em" onClick={predict} />
+                    {!predicting ? <AiOutlineCloudUpload size="2em" onClick={predict} /> : <AiOutlineSync className='animate-spin' size='2em'/> }
                         <GrClear
                             size="2em"
                             onClick={() => {

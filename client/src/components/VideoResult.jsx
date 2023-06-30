@@ -47,6 +47,7 @@ const VideoResult = ({ data, video }) => {
                                         data.frames.length - 1
                                     )
                                     setCurrentFrame(curFrame)
+                                    console.log(curFrame)
                                     setInferedEthnicity(inferEthnicity(data.frames[curFrame]))
                                 }
                             }, (1 / data.fps) * 1000)
@@ -93,9 +94,9 @@ const VideoResult = ({ data, video }) => {
                 {!vidRef.current?.playing && (
                     <>
                         <span className='border shadow-md px-3 py-2 w-fit rounded-lg self-center'>
-                            <Link to={`/culture/${inferedEthnicity.id}`}>
+                            <Link to={`/culture/${inferedEthnicity?.id}`}>
                                 Ethnicity:{' '}
-                                {inferedEthnicity.name}
+                                {inferedEthnicity?.name}
                             </Link>
                         </span>
                         <h1 className="font-semibold">
