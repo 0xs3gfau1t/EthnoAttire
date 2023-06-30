@@ -2,12 +2,14 @@ import UploadCard from '../components/UploadCard'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { useRef, useState } from 'react'
 import { GrClear } from 'react-icons/gr'
+import inferEthnicity from '../utils/inferCulture'
+
 export default function Image() {
     const [targetImage, setTargetImage] = useState(null)
     const [imageFile, setImageFile] = useState(null)
 
     const [predictedClasses, setPredictedClasses] = useState([])
-    const [bbox, setBbox] = useState([])
+    const [detectedItems, setDetectedItems] = useState([])
     const [detected, setDetected] = useState(false)
 
     const handleChange = e => {
@@ -27,11 +29,7 @@ export default function Image() {
         })
             .then(r => r.json())
             .then(r => {
-                /* const tempBbox = [] */
-                /* for (let i of r.frame) { */
-                /*     tempBbox.push(i.box) */
-                /* } */
-                setBbox(r.frame.map(i => i.box))
+                setDetectedItems(r.frame)
                 setDetected(true)
             })
             .catch(e => {
@@ -79,31 +77,32 @@ export default function Image() {
                         />
                         {detected && (
                             <ul>
-                                {bbox.map(box => {
+                                {detectedItems.map((item, idx) => {
                                     const a = (
                                         <li
                                             className="border border-black absolute"
                                             style={{
                                                 left: `${
                                                     bounding.left +
-                                                    box[0] * bounding.width
+                                                    item.box[0] * bounding.width
                                                 }px`,
                                                 top: `${
                                                     bounding.top +
-                                                    box[1] * bounding.height
+                                                    item.box[1] *
+                                                        bounding.height
                                                 }px`,
                                                 right: `${
                                                     bounding.right +
-                                                    (1 - box[2]) *
+                                                    (1 - item.box[2]) *
                                                         bounding.width
                                                 }px`,
                                                 bottom: `${
                                                     bounding.bottom +
-                                                    (1 - box[3]) *
+                                                    (1 - item.box[3]) *
                                                         bounding.height
                                                 }px`,
                                             }}
-                                            key={box}
+                                            key={idx}
                                         />
                                     )
                                     return a
@@ -121,11 +120,14 @@ export default function Image() {
                             onClick={() => {
                                 setTargetImage(null)
                                 setPredictedClasses([])
-                                setBbox([])
+                                setDetectedItems([])
                                 setDetected(false)
                             }}
                         />
                     </div>
+                    {detected && (
+                        <span>Ethnicity: {inferEthnicity(detectedItems)}</span>
+                    )}
                 </div>
             )}
         </>

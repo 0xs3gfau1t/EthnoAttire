@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from 'react'
+import inferEthnicity from '../utils/inferCulture'
 
 const VideoResult = ({ data, video }) => {
     const [currentFrame, setCurrentFrame] = useState(0)
@@ -96,6 +97,10 @@ const VideoResult = ({ data, video }) => {
                 </div>
                 {!vidRef.current?.playing && (
                     <>
+                        <span>
+                            Ethnicity:{' '}
+                            {inferEthnicity(data.frames[currentFrame])}
+                        </span>
                         <h1 className="font-semibold">
                             Detected Items in this frame
                         </h1>
