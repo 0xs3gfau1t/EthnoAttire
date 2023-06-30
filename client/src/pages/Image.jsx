@@ -7,6 +7,7 @@ import inferEthnicity from '../utils/inferCulture'
 import DetectionList from '../components/DetectionList'
 import { BiSolidUpArrow } from 'react-icons/bi'
 import InfoList from '../components/InfoList'
+import { Link } from 'react-router-dom'
 
 function unique(arr) {
     const mp = {}
@@ -17,7 +18,6 @@ function unique(arr) {
             uniqueArr.push(i)
         }
     }
-    console.log('Uni', uniqueArr)
     return uniqueArr
 }
 
@@ -29,6 +29,7 @@ export default function Image() {
     const [detectedItems, setDetectedItems] = useState([])
     const [detected, setDetected] = useState(false)
     const [noInfo, setNoInfo] = useState(null)
+    const [inferedEthnicity, setInferedEthnicity] = useState({name: null, id: null})
 
     const handleChange = e => {
         const reader = new FileReader()
@@ -57,6 +58,7 @@ export default function Image() {
                 setPredictedClasses(tempPredictedClass)
                 setDetectedItems(r.frame)
                 setDetected(true)
+                setInferedEthnicity(inferEthnicity(r.frame))
             })
             .catch(e => {
                 console.error(e)
@@ -108,8 +110,8 @@ export default function Image() {
                         />
                         {detected && (
                             <>
-                                {detectedItems.map((item, idx) => {
-                                    const a = (
+                                {
+                                    detectedItems.map((item, idx) => 
                                         <li
                                             className="border border-black absolute list-none"
                                             style={{
@@ -134,10 +136,8 @@ export default function Image() {
                                                 }px`,
                                             }}
                                             key={idx}
-                                        />
-                                    )
-                                    return a
-                                })}
+                                        />)
+                                }
                             </>
                         )}
                     </div>
@@ -164,16 +164,19 @@ export default function Image() {
                                     size="1.5rem"
                                 />
                                 <div
-                                    className={`border border-black border-x-4 border-t-4 flex flex-col rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${
+                                    className={`border border-black border-x-4 border-t-4 flex flex-col gap-y-2 rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${
                                         noInfo != null ? 'pt-0' : ''
                                     }`}
                                 >
                                     {noInfo === null ? (
                                         <>
-                                            <span>
-                                                Ethnicity:{' '}
-                                                {inferEthnicity(detectedItems)}
+                                            <span className='border shadow-md px-3 py-2 w-fit rounded-lg self-center'>
+                                                <Link to={`/info/culture/${inferedEthnicity.id}`}>
+                                                    Ethnicity:{' '}
+                                                    {inferedEthnicity.name}
+                                                </Link>
                                             </span>
+                                            <hr className='border-0 h-[4px] bg-slate-200 w-1/2 self-center'/>
                                             <DetectionList
                                                 items={unique(predictedClasses)}
                                                 handleClick={classClickHandler}

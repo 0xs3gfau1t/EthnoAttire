@@ -1,7 +1,7 @@
 import { RxCross2 } from 'react-icons/rx'
 import { FcInfo } from 'react-icons/fc'
 
-export default function DetectionList({ klasName, handleBack }) {
+export default function InfoList({ klasName, handleBack }) {
     return (
         <div className="flex flex-col relative overflow-scroll no-scrollbar gap-2">
             <RxCross2

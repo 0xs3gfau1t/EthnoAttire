@@ -1,17 +1,17 @@
 const cultureList = {
-    0: {
+    2: {
         name: 'Brahmin/Chhetri',
         description: 'Hello guys, yo brahmin/chhetri ko description',
         image: 'https://external-content.duckduckgo.com/iu/?u=http%3A%2F%2F2.bp.blogspot.com%2F-k2cTu22DVqg%2FVXIIinDce0I%2FAAAAAAAAALs%2Fy1hpYYqFa44%2Fs1600%2Foncover.jpg&f=1&nofb=1&ipt=1e68bcb14b7da770c9f5cba5fc5716d4e3911e41f2f596e57a45fb42cb113976&ipo=images',
         origin: ['Parbat', 'Argakhanchi', 'Syangja', 'Chitwan', 'Kaski', 'Gulmi', 'Jhapa', 'Nawalpur']
     },
-    1: {
+    0: {
         name: 'Newar',
         description: 'Ramri ramri nani haru',
         image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.5l_9_rQVl33CIykiAxuvyQHaFj%26pid%3DApi&f=1&ipt=e82927c232955ceecf5792981c09fe61e4b9061eb135c0c69d03ab2313efaeb5&ipo=images',
         origin: ['Kathmandu', 'Bhaktapur', 'Patan']
     },
-    2: {
+    1: {
         name: 'Tharu',
         description: 'Khatra dance',
         image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fa2%2F64%2F64%2Fa264642a6a0f0064c691193159eeec01.jpg&f=1&nofb=1&ipt=39387052b9962f667ce94a61111652f5c46e1f8b6ca949df7beca5e6a336f35e&ipo=images',
