@@ -34,7 +34,6 @@ export default function Image() {
                     show: d.classId == id ? !d.show : d.show,
                 }
             }
-            console.log({ oldData, newData, id })
             return newData
         })
     }
@@ -65,7 +64,6 @@ export default function Image() {
                         show: true,
                     }
                 }
-                console.log({ tempPredictedClass })
                 setPredictedClasses(tempPredictedClass)
                 setDetectedItems(r.frame)
                 setDetected(true)

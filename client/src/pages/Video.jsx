@@ -41,7 +41,6 @@ const VideoPage = () => {
                     show: d.classId == id ? !d.show : d.show,
                 }
             }
-            console.log({ oldData, newData, id })
             return newData
         })
     }
@@ -90,10 +89,6 @@ const VideoPage = () => {
                             controls={true}
                             ref={vidRef}
                             onPlay={() => {
-                                console.log('Playying', {
-                                    parentRef: parentRef.current,
-                                    vidRef: vidRef.current,
-                                })
                                 const parentPos =
                                     parentRef.current?.getBoundingClientRect()
                                 const childPos =
@@ -110,7 +105,6 @@ const VideoPage = () => {
                                         width: childPos.width,
                                         height: childPos.height,
                                     })
-                                console.log({ timer })
                                 if (timer == -1) {
                                     const t = setInterval(() => {
                                         if (
