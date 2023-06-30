@@ -107,11 +107,11 @@ export default function Image() {
                             ref={imageRef}
                         />
                         {detected && (
-                            <ul>
+                            <>
                                 {detectedItems.map((item, idx) => {
                                     const a = (
                                         <li
-                                            className="border border-black absolute"
+                                            className="border border-black absolute list-none"
                                             style={{
                                                 left: `${
                                                     bounding.left +
@@ -138,51 +138,57 @@ export default function Image() {
                                     )
                                     return a
                                 })}
-                            </ul>
+                            </>
                         )}
                     </div>
-                    <div className="flex gap-x-5 mt-3 m-auto self-center shadow-md border border-black rounded-md px-2 py-1">
-                        <AiOutlineCloudUpload
-                            size="2em"
-                            onClick={handleSubmit}
-                        />
-                        <GrClear
-                            size="2em"
-                            onClick={() => {
-                                setTargetImage(null)
-                                setPredictedClasses([])
-                                setDetectedItems([])
-                                setDetected(false)
-                            }}
-                        />
-                    </div>
-                    {detected && (
-                        <>
-                            <BiSolidUpArrow
-                                className="self-center mt-3"
-                                size="1.5rem"
+                    <div className="h-1/2 flex flex-col justify-between gap-3 flex-grow p-2 max-h-[50%] overflow-hidden">
+                        <div className="flex gap-x-5 self-center shadow-md border border-black rounded-md px-2 py-1">
+                            <AiOutlineCloudUpload
+                                size="2em"
+                                onClick={handleSubmit}
                             />
-                            <div className="border border-black border-x-4 border-t-4 flex flex-col rounded-md h-1/2 transition duration-300 no-scrollbar">
-                                {noInfo === null ? (
-                                    <>
-                                        <span>
-                                            Ethnicity:{' '}
-                                            {inferEthnicity(detectedItems)}
-                                        </span>
-                                        <DetectionList
-                                            items={unique(predictedClasses)}
-                                            handleClick={classClickHandler}
+                            <GrClear
+                                size="2em"
+                                onClick={() => {
+                                    setTargetImage(null)
+                                    setPredictedClasses([])
+                                    setDetectedItems([])
+                                    setDetected(false)
+                                }}
+                            />
+                        </div>
+                        {detected && (
+                            <div className="flex flex-col overflow-hidden">
+                                <BiSolidUpArrow
+                                    className="self-center"
+                                    size="1.5rem"
+                                />
+                                <div
+                                    className={`border border-black border-x-4 border-t-4 flex flex-col rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${
+                                        noInfo != null ? 'pt-0' : ''
+                                    }`}
+                                >
+                                    {noInfo === null ? (
+                                        <>
+                                            <span>
+                                                Ethnicity:{' '}
+                                                {inferEthnicity(detectedItems)}
+                                            </span>
+                                            <DetectionList
+                                                items={unique(predictedClasses)}
+                                                handleClick={classClickHandler}
+                                            />
+                                        </>
+                                    ) : (
+                                        <InfoList
+                                            klasName={noInfo}
+                                            handleBack={() => setNoInfo(null)}
                                         />
-                                    </>
-                                ) : (
-                                    <InfoList
-                                        klasName={noInfo}
-                                        handleBack={() => setNoInfo(null)}
-                                    />
-                                )}
+                                    )}
+                                </div>
                             </div>
-                        </>
-                    )}
+                        )}
+                    </div>
                 </div>
             )}
         </>
