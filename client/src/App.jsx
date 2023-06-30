@@ -1,15 +1,16 @@
-import { Route, Routes } from "react-router-dom"
+import { Route, Routes } from 'react-router-dom'
 import Nav from './components/Nav'
+import Image from './pages/Image'
 
 export default function App() {
     return (
         <>
-            <Nav/>
+            <Nav />
             <Routes>
-                <Route path='/' element={<>Home</>}/>
-                <Route path='/image' element={<>Image</>}/>
-                <Route path='/video' element={<>Video</>}/>
-                <Route path='/info' element={<>Info</>}/>
+                <Route path="/" element={<>Home</>} />
+                <Route path="/image" element={<Image />} />
+                <Route path="/video" element={<>Video</>} />
+                <Route path="/info" element={<>Info</>} />
             </Routes>
         </>
     )
