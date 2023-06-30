@@ -215,7 +215,7 @@ const VideoPage = () => {
                                         </>
                                     ) : (
                                         <InfoList
-                                            klasName={noInfo}
+                                            classId={noInfo}
                                             handleBack={() => setNoInfo(null)}
                                         />
                                     )}

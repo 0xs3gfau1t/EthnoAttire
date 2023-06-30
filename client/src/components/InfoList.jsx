@@ -12,12 +12,12 @@ export default function InfoList({ classId , handleBack }) {
                 onClick={handleBack}
             />
             <h2 className="self-center text-2xl border-4 border-t-0 border-black px-3 py-1 rounded-b-md">
-                {ornaments[classId].name}
+                {ornaments[classId]?.name}
             </h2>
             <FcInfo size="1.5em" className="absolute ml-2 mt-2" />
-            <img src={ornaments[classId].image} className='h-40 mx-auto rounded-lg'/>
+            <img src={ornaments[classId]?.image} className='h-40 mx-auto rounded-lg'/>
             <p>
-                {ornaments[classId].description}
+                {ornaments[classId]?.description}
             </p>
         </div>
     )

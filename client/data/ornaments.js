@@ -58,7 +58,7 @@ const ornaments = {
         gender: 'female',
         culture: 'Tharu',
         cultureId: 1,
-        image: ''
+        image: '',
         description:
             'The hair ornament called ali band is popular with many different groups. It is a metal band that runs from the centre of the forehead over the part of the hair and around the sides of the head. The Tharu version is large with a prominent centre design and may not have the centre band. It looks similar to Sirbandi but has silver colour mostly.',
     },
