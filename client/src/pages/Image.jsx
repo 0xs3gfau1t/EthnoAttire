@@ -159,10 +159,11 @@ export default function Image() {
                                         <>
                                             <span className="border shadow-md px-3 py-2 w-fit rounded-lg self-center">
                                                 <Link
-                                                    to={`/culture/${inferedEthnicity.id}`}
+                                                    to={`/culture/${inferedEthnicity?.id}`}
                                                 >
                                                     Ethnicity:{' '}
-                                                    {inferedEthnicity.name}
+                                                    {inferedEthnicity?.name ||
+                                                        "Couldn't Detect"}
                                                 </Link>
                                             </span>
                                             <hr className="border-0 h-[4px] bg-slate-200 w-1/2 self-center" />

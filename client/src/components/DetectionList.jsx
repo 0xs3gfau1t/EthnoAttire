@@ -1,6 +1,9 @@
 import { AiOutlineInfoCircle } from 'react-icons/ai'
 
 export default function DetectionList({ items, handleClick, onInfo }) {
+    if (!items || items?.length == 0)
+        return <div className="w-full text-center">Nothing detected</div>
+
     return (
         <ul className="flex flex-wrap overflow-scroll gap-3 pt-3">
             {items?.map((item, index) => (
