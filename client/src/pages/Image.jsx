@@ -4,6 +4,23 @@ import { useRef, useState } from 'react'
 import { GrClear } from 'react-icons/gr'
 import inferEthnicity from '../utils/inferCulture'
 
+import DetectionList from '../components/DetectionList'
+import { BiSolidUpArrow } from 'react-icons/bi'
+import InfoList from '../components/InfoList'
+
+function unique(arr) {
+    const mp = {}
+    const uniqueArr = []
+    for (let i of arr) {
+        if (mp[i] === undefined) {
+            mp[i] = true
+            uniqueArr.push(i)
+        }
+    }
+    console.log('Uni', uniqueArr)
+    return uniqueArr
+}
+
 export default function Image() {
     const [targetImage, setTargetImage] = useState(null)
     const [imageFile, setImageFile] = useState(null)
@@ -11,6 +28,7 @@ export default function Image() {
     const [predictedClasses, setPredictedClasses] = useState([])
     const [detectedItems, setDetectedItems] = useState([])
     const [detected, setDetected] = useState(false)
+    const [noInfo, setNoInfo] = useState(null)
 
     const handleChange = e => {
         const reader = new FileReader()
@@ -20,6 +38,7 @@ export default function Image() {
             setImageFile(e.target.files[0])
         }
     }
+
     function handleSubmit() {
         const data = new FormData()
         data.append('img', imageFile)
@@ -29,6 +48,13 @@ export default function Image() {
         })
             .then(r => r.json())
             .then(r => {
+                const tempBbox = []
+                const tempPredictedClass = []
+                for (let i of r.frame) {
+                    tempBbox.push(i.box)
+                    tempPredictedClass.push(i.name)
+                }
+                setPredictedClasses(tempPredictedClass)
                 setDetectedItems(r.frame)
                 setDetected(true)
             })
@@ -58,6 +84,11 @@ export default function Image() {
                 height: i.height,
             })
     }
+
+    function classClickHandler(name) {
+        setNoInfo(name)
+    }
+
     return (
         <>
             {targetImage === null ? (
@@ -67,11 +98,11 @@ export default function Image() {
                     accept="image/*"
                 />
             ) : (
-                <div className="h-full w-full flex flex-col justify-center gap-2">
-                    <div className="h-1/2 relative" ref={parentRef}>
+                <div className="flex flex-col h-full w-full">
+                    <div className="relative mt-10 h-1/2" ref={parentRef}>
                         <img
                             src={targetImage}
-                            className="h-full absolute m-auto inset-0"
+                            className="h-full absolute inset-0 m-auto"
                             onLoad={bounds}
                             ref={imageRef}
                         />
@@ -110,7 +141,7 @@ export default function Image() {
                             </ul>
                         )}
                     </div>
-                    <div className="flex gap-x-5 justify-center">
+                    <div className="flex gap-x-5 mt-3 m-auto self-center shadow-md border border-black rounded-md px-2 py-1">
                         <AiOutlineCloudUpload
                             size="2em"
                             onClick={handleSubmit}
@@ -126,7 +157,31 @@ export default function Image() {
                         />
                     </div>
                     {detected && (
-                        <span>Ethnicity: {inferEthnicity(detectedItems)}</span>
+                        <>
+                            <BiSolidUpArrow
+                                className="self-center mt-3"
+                                size="1.5rem"
+                            />
+                            <div className="border border-black border-x-4 border-t-4 flex flex-col rounded-md h-1/2 transition duration-300 no-scrollbar">
+                                {noInfo === null ? (
+                                    <>
+                                        <span>
+                                            Ethnicity:{' '}
+                                            {inferEthnicity(detectedItems)}
+                                        </span>
+                                        <DetectionList
+                                            items={unique(predictedClasses)}
+                                            handleClick={classClickHandler}
+                                        />
+                                    </>
+                                ) : (
+                                    <InfoList
+                                        klasName={noInfo}
+                                        handleBack={() => setNoInfo(null)}
+                                    />
+                                )}
+                            </div>
+                        </>
                     )}
                 </div>
             )}
