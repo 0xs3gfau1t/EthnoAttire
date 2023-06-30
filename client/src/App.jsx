@@ -18,10 +18,7 @@ export default function App() {
                     <Route path="video" element={<VideoPage />} />
                     <Route path="info" element={<InfoPage />} />
                     <Route path="culture" element={<Culture />} />
-                    <Route
-                        path="info/culture/:id"
-                        element={<CultureDetail />}
-                    />
+                    <Route path="culture/:id" element={<CultureDetail />} />
                 </Route>
             </Routes>
         </>

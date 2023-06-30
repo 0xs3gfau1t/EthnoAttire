@@ -12,7 +12,7 @@
     }
 }
 .section {
-    @apply bg-gray-200 rounded flex flex-col gap-2  overflow-hidden;
+    @apply bg-gray-200 rounded flex flex-col gap-2  overflow-hidden px-2;
 }
 .section h2 {
     margin-left: 1vw;

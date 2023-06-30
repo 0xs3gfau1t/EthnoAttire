@@ -110,7 +110,7 @@ const ornaments = {
     14: {
         name: 'potey',
         gender: 'female',
-        culture: 'Brahmin/Chhetri',
+        culture: '',
         description: 'Worn Around neck',
     },
     15: {

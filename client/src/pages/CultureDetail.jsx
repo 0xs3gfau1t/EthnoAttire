@@ -6,7 +6,7 @@ import Destinations from '../components/Destination'
 import { cultureList } from '../../data/culture'
 
 const CultureDetail = () => {
-    const [collapse, setCollapse] = useState([true, false, false])
+    const [collapse, setCollapse] = useState([true, false, false, false])
     let { id } = useParams()
 
     const updateCol = idx => {
@@ -28,7 +28,9 @@ const CultureDetail = () => {
             <Link className="text-sm bold text-blue-600" to={'/culture'}>
                 {'<< Back to All Culture'}
             </Link>
-            <h1 className="text-xl bold">{cultureList[id]['name']}</h1>
+            <h1 className="text-2xl font-bold text-center">
+                {cultureList[id]['name']} Culture
+            </h1>
             <div className="section">
                 <Destinations culture={id} />
             </div>
@@ -58,6 +60,23 @@ const CultureDetail = () => {
                     Festivals {collapse[2] ? '▴' : '▾'}
                 </h2>
                 {collapse[2] && (
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing
+                        elit. Suscipit animi laborum unde quo distinctio,
+                        repellat sed perspiciatis minus esse sunt accusantium
+                        optio, atque a enim ipsum deleniti facilis veritatis
+                        placeat!
+                    </p>
+                )}
+            </div>
+            <div className="section ">
+                <h2
+                    className="text-xl cursor-pointer"
+                    onClick={e => updateCol(3)}
+                >
+                    Food {collapse[3] ? '▴' : '▾'}
+                </h2>
+                {collapse[3] && (
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipisicing
                         elit. Suscipit animi laborum unde quo distinctio,
