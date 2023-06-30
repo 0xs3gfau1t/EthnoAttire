@@ -4,7 +4,7 @@ const ornaments = {
         culture: 'Newari',
         cultureId: 0,
         gender: 'female',
-        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fnepkids.com%2Fuser_uploads%2Fitems%2Fphotos%2F649578868411_thumb.jpg&f=1&nofb=1&ipt=49449488bc1645624075447ac1c9a319885573d65fe12370e2163e8e638ffa5c&ipo=images',
+        image: '/patashi.png',
         description:
             'Haku Patasi is made of local household cotton grown in different places surrounding Kathmandu valley.  Haku patasi is black sari with red borders worn by Nepali Newari women living in and around Kathmandu valley. Haku means Black and patasi meaning Sari in Newari language. Haku patasi (black sari) is very different than regular saris and dhoties worn by Nepali females. Haku patasi is usually heavier, and always black sari with red boarder. Haku Patasi is worn without wearing a petticoat (skirt worn inside the sari). This sari is worn from the waist to the calves and does not cover ankles as generally other saris do. Newar ladies and Newar girls living in Kathmandu valley and its vicinity wrap Haku Patasi around their waist and tie Patuka like a belt.',
     },
@@ -13,7 +13,7 @@ const ornaments = {
         culture: 'Newari',
         cultureId: 0,
         gender: 'female',
-        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fwww.artic.edu%2Fiiif%2F2%2F0b4bc6dc-faa5-b158-fd8d-ca9badf69354%2Ffull%2F843%2C%2F0%2Fdefault.jpg&f=1&nofb=1&ipt=21e3847cb94f01f1929ef5e8afd0aae24ce35a89ba9fa5b4b27a5eb1851c4819&ipo=images',
+        image: '/nyapu.png',
         description:
             '“Nyapu Shikha” is a chain with net like configuration worn on one side of the head. Nyapu in Newari means five and Shikha is chain. The jewelry has five rows of chains thus has the name. The jewelry is gold plated and handmade in Nepal. It usually use by the women & girls of Newari community.',
     },
@@ -22,7 +22,7 @@ const ornaments = {
         culture: 'Newari',
         cultureId: 0,
         gender: 'both',
-        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse4.mm.bing.net%2Fth%3Fid%3DOIP.sFFi-MCh756ONqWuwiKyCQAAAA%26pid%3DApi&f=1&ipt=31b2a1399bbe2da08dfc7162e8116173ce715cfa7b2cc05ac43f9f01554629f4&ipo=images',
+        image: 'https://static-01.daraz.com.np/p/ccad49ae8bf6febbfb807131e36c69d4.jpg',
         description:
             "Men's common costume consists of a long shirt called tapālan (Nepal Bhasa: तपालं) and tight fitting trousers known as suruwā (सुरुवा:). A waistcoat and coat may be worn over the shirt. Today, the garment is worn during special occasions, official functions and festivals while it is still everyday wear for many among the older generation. Men dress in tapālan and suruwā and women wear the hāku patāsi when taking part in the New Year's Day parade of Nepal Sambat. This traditional dress is also worn during wedding processions.",
     },
@@ -31,7 +31,7 @@ const ornaments = {
         culture: 'Newari',
         cultureId: 0,
         gender: 'male',
-        image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fimartnepal.com%2Fwp-content%2Fuploads%2F2019%2F07%2F25-2.jpg&f=1&nofb=1&ipt=d53724a8e958bd06ae8f37d9ae3415678f35c19b240f27a9232248d5c9c44d6c&ipo=images',
+        image: 'https://thulo.com/images/thumbnails/772/772/detailed/230/c58711dc7df784e8b4c6b87c72bfaa80__1_.jpg',
         descrition:
             'Haku Tapli is a traditional hat worn by the Newari male. Haku means "Black" and "Tapli" means "Topi" or "Hat" in Newari hence black hat. It is the newari version of popular nepali  traditional hat "Dhaka Topi"',
     },
