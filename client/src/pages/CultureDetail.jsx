@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 
 import Attire from '../components/Attire'
 import Destinations from '../components/Destination'
+import Map from './Map'
 import { cultureList } from '../../data/culture'
 
 const CultureDetail = () => {

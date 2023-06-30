@@ -4,7 +4,14 @@ import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as turf from '@turf/turf' // Import all functions from turf library
 
-const Map = () => {
+const Map = ({ toHigh }) => {
+    //data format of toHigh,array of coordinates to highlight
+    // const toHigh = [
+    //     [87.1423, 27.6142],
+    //     [81.7349, 29.2089],
+    //     [84.0167, 28.2622],
+    //     // [29.2089, 81.7349],
+    // ]
     const [districtsData, setDistrictsData] = useState(null)
     const [loading, setLoading] = useState(true) // Add loading state
 
@@ -38,18 +45,22 @@ const Map = () => {
     }
 
     const highlightStyle = {
-        color: 'blue',
+        color: 'red',
         weight: 2,
-        fillOpacity: 0.5,
+        fillOpacity: 0.8,
     }
 
     useEffect(() => {
         if (districtsData && !loading) {
+            let isInside = false
             districtsData.features.forEach(district => {
-                const isInside = turf.booleanPointInPolygon(
-                    turf.point([givenCoordinate.lng, givenCoordinate.lat]),
-                    district.geometry
-                )
+                for (let i = 0; i < toHigh.length; i++) {
+                    isInside = turf.booleanPointInPolygon(
+                        turf.point(toHigh[i]),
+                        district.geometry
+                    )
+                    if (isInside) break
+                }
                 district.properties.isHighlighted = isInside
             })
         }
