@@ -2,7 +2,7 @@ import { BsFillPlusCircleFill, BsCheck2All } from 'react-icons/bs'
 
 export default function UploadCard({ handleSubmit, handleChange }) {
     return (
-        <div className="flex flex-col items-center mt-10">
+        <div className="">
             <input
                 type="file"
                 accept="image/*|video/*"
@@ -11,7 +11,7 @@ export default function UploadCard({ handleSubmit, handleChange }) {
                 onChange={e => handleChange(e)}
             />
             <label htmlFor="imageUpload">
-                <div className="border border-indigo-900 px-10 pt-5 pb-0 rounded-md grid place-items-center hover:border-emerald-500 transition duration-300 hover:cursor-pointer group fill-emerald-500 h-60">
+                <div className="">
                     <BsFillPlusCircleFill
                         size="3em"
                         className="group-hover:fill-inherit transition duration-300"

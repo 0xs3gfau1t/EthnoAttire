@@ -2,7 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
-html {
-    background-color: #ebe9e6;
-    color: #000000;
+@layer base {
+    html {
+        @apply scroll-smooth h-screen w-screen;
+    }
+    body,
+    #root {
+        @apply h-full w-full;
+    }
 }
