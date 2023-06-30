@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
+import Attire from '../components/Attire'
+import Destinations from '../components/Destination'
 import { cultureList } from '../../data/culture'
 
 const CultureDetail = () => {
@@ -12,15 +14,25 @@ const CultureDetail = () => {
         update[idx] = !update[idx]
         setCollapse(update)
     }
-
+    if (!cultureList[id])
+        return (
+            <div>
+                <Link className="text-sm bold text-blue-600" to={'/culture'}>
+                    {'<< Back to All Culture'}
+                </Link>
+                <h1 className="text-2xl text-center mt-20 bold">Not found</h1>{' '}
+            </div>
+        )
     return (
         <div className="flex flex-col gap-4">
             <Link className="text-sm bold text-blue-600" to={'/culture'}>
                 {'<< Back to All Culture'}
             </Link>
-            <h1 className="text-xl bold">Newari Culture</h1>
-            <div>Map Goes Here</div>
-            <div className="section ">
+            <h1 className="text-xl bold">{cultureList[id]['name']}</h1>
+            <div className="section">
+                <Destinations culture={id} />
+            </div>
+            <div className="section">
                 <h2
                     className="text-xl cursor-pointer"
                     onClick={e => updateCol(0)}
@@ -36,30 +48,7 @@ const CultureDetail = () => {
                 >
                     Traditional Attire {collapse[1] ? '▴' : '▾'}
                 </h2>
-                {collapse[1] && (
-                    <div>
-                        <div className="">
-                            <h3>Male</h3>
-                            <p>
-                                Lorem, ipsum dolor sit amet consectetur
-                                adipisicing elit. Dicta dolore corrupti, numquam
-                                quod quidem soluta, magni, alias atque vitae
-                                molestias accusantium itaque ut veniam modi
-                                ipsum neque. Distinctio, cum? Recusandae?
-                            </p>
-                        </div>
-                        <div className="">
-                            <h3>Female</h3>
-                            <p>
-                                Lorem, ipsum dolor sit amet consectetur
-                                adipisicing elit. Dicta dolore corrupti, numquam
-                                quod quidem soluta, magni, alias atque vitae
-                                molestias accusantium itaque ut veniam modi
-                                ipsum neque. Distinctio, cum? Recusandae?
-                            </p>
-                        </div>
-                    </div>
-                )}
+                {collapse[1] && <Attire culture={cultureList[id]['name']} />}
             </div>
             <div className="section ">
                 <h2
