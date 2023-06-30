@@ -1,17 +1,18 @@
+import { AiOutlineCloudUpload, AiOutlineSync } from 'react-icons/ai'
 import { useState, useRef } from 'react'
-import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { GrClear } from 'react-icons/gr'
 import UploadCard from '../components/UploadCard'
-import inferEthnicity from '../utils/inferCulture'
 import { BoundingBox } from '../components/BoundingBox'
 import { BiSolidUpArrow } from 'react-icons/bi'
 import { Link } from 'react-router-dom'
 import DetectionList from '../components/DetectionList'
 import InfoList from '../components/InfoList'
+import inferEthnicity from '../utils/inferCulture'
 
 const VideoPage = () => {
     const [file, setFile] = useState()
     const [videoBlob, setVideoBlob] = useState()
+    const [predicting, setPredicting] = useState(false)
     const [data, setData] = useState()
     const [predictedClasses, setPredictedClasses] = useState(null)
     const [currentFrame, setCurrentFrame] = useState(0)
@@ -46,6 +47,7 @@ const VideoPage = () => {
     }
 
     const predict = () => {
+        setPredicting(true)
         const data = new FormData()
         data.append('vid', file)
         fetch('/api/video', { method: 'POST', body: data }).then(async res => {
@@ -66,7 +68,7 @@ const VideoPage = () => {
                     )
                 )
             }
-        })
+        }).finally(() => setPredicting(false))
     }
 
     const parentRef = useRef()
@@ -121,10 +123,9 @@ const VideoPage = () => {
                                             )
                                             setCurrentFrame(curFrame)
                                             setInferedEthnicity(
-                                                'Newari'
-                                                /* inferEthnicity( */
-                                                /*     data.frames[curFrame] */
-                                                /* ) */
+                                                inferEthnicity(
+                                                    data.frames[curFrame]
+                                                )
                                             )
                                         }
                                     }, (1 / data.fps) * 1000)
@@ -166,10 +167,14 @@ const VideoPage = () => {
                     </div>
                     <div className="h-1/2 flex flex-col justify-between gap-3 flex-grow p-2 max-h-[50%] overflow-hidden">
                         <div className="flex gap-x-5 self-center shadow-md border border-black rounded-md px-2 py-1">
-                            <AiOutlineCloudUpload
-                                size="2em"
-                                onClick={predict}
-                            />
+                            {
+                                !predicting ?
+                                    <AiOutlineCloudUpload
+                                        size="2em"
+                                        onClick={predict}
+                                    /> :
+                                <AiOutlineSync size="2em" className='animate-spin'/>
+                            }
                             <GrClear
                                 size="2em"
                                 onClick={() => {
@@ -193,10 +198,10 @@ const VideoPage = () => {
                                         <>
                                             <span className="border shadow-md px-3 py-2 w-fit rounded-lg self-center">
                                                 <Link
-                                                    to={`/culture/${inferedEthnicity.id}`}
+                                                    to={`/culture/${inferedEthnicity?.id}`}
                                                 >
                                                     Ethnicity:{' '}
-                                                    {inferedEthnicity.name}
+                                                    {inferedEthnicity?.name}
                                                 </Link>
                                             </span>
                                             <hr className="border-0 h-[4px] bg-slate-200 w-1/2 self-center" />
@@ -210,7 +215,7 @@ const VideoPage = () => {
                                         </>
                                     ) : (
                                         <InfoList
-                                            klasName={noInfo}
+                                            classId={noInfo}
                                             handleBack={() => setNoInfo(null)}
                                         />
                                     )}

@@ -1,12 +1,20 @@
 import React, { useEffect, useState } from 'react'
-import { MapContainer, TileLayer, GeoJSON } from 'react-leaflet'
+import { MapContainer, TileLayer, GeoJSON, Popup } from 'react-leaflet'
 import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import * as turf from '@turf/turf' // Import all functions from turf library
 
-const Map = () => {
+const Map = ({ toHigh }) => {
+    //data format of toHigh,array of coordinates to highlight
+    // const toHigh = [
+    //     [87.1423, 27.6142],
+    //     [81.7349, 29.2089],
+    //     [84.0167, 28.2622],
+    //     // [29.2089, 81.7349],
+    // ]
     const [districtsData, setDistrictsData] = useState(null)
     const [loading, setLoading] = useState(true) // Add loading state
+    const [selectedDistrict, setSelectedDistrict] = useState(null)
 
     useEffect(() => {
         fetch('../../data/nepal-districts-new.geojson')
@@ -21,41 +29,67 @@ const Map = () => {
             })
     }, [])
 
-    const givenCoordinate = { lat: 29.2089, lng: 81.7349 }
-
     const mapStyle = {
-        height: '600px',
+        height: '300px',
         width: '100%',
     }
 
-    const mapCenter = [28.3949, 84.124]
-    const zoomLevel = 7
+    const mapCenter = [toHigh[0][1], toHigh[0][0]]
+    const zoomLevel = 6.5
 
     const districtStyle = {
-        color: 'gray',
+        color: 'red',
+        fillColor: 'blue',
         weight: 1,
-        fillOpacity: 0.2,
+        fillOpacity: 0.5,
     }
 
     const highlightStyle = {
-        color: 'blue',
+        color: 'red',
         weight: 2,
-        fillOpacity: 0.5,
+        fillColor: 'orange',
+        fillOpacity: 0.8,
     }
 
     useEffect(() => {
         if (districtsData && !loading) {
+            let isInside = false
             districtsData.features.forEach(district => {
-                const isInside = turf.booleanPointInPolygon(
-                    turf.point([givenCoordinate.lng, givenCoordinate.lat]),
-                    district.geometry
-                )
+                for (let i = 0; i < toHigh.length; i++) {
+                    isInside = turf.booleanPointInPolygon(
+                        turf.point(toHigh[i]),
+                        district.geometry
+                    )
+                    if (isInside) break
+                }
                 district.properties.isHighlighted = isInside
             })
         }
-    }, [districtsData, givenCoordinate, loading])
+    }, [districtsData, toHigh, loading])
 
     if (loading) return <h1 className="text-center text-2xl">Loading Map</h1>
+
+    const onEachDistrict = (district, layer) => {
+        layer.on({
+            click: () => {
+                setSelectedDistrict(district.properties.DIST_EN) // Store the clicked district name in state
+            },
+            mouseover: () => {
+                if (district.properties.isHighlighted) {
+                    layer.openPopup() // Show the popup on mouseover for highlighted districts
+                }
+            },
+            mouseout: () => {
+                if (district.properties.isHighlighted) {
+                    layer.closePopup() // Close the popup on mouseout for highlighted districts
+                }
+            },
+        })
+
+        if (district.properties.isHighlighted) {
+            layer.bindPopup(district.properties.NAME) // Show the district name in the popup for highlighted districts
+        }
+    }
 
     return (
         <MapContainer style={mapStyle} center={mapCenter} zoom={zoomLevel}>
@@ -73,6 +107,7 @@ const Map = () => {
                                 ? highlightStyle
                                 : null),
                         })}
+                        onEachFeature={onEachDistrict}
                     />
                 )}
         </MapContainer>

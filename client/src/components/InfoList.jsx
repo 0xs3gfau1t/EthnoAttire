@@ -1,7 +1,9 @@
 import { RxCross2 } from 'react-icons/rx'
 import { FcInfo } from 'react-icons/fc'
+import { ornaments } from '../../data/ornaments'
 
-export default function InfoList({ klasName, handleBack }) {
+export default function InfoList({ classId , handleBack }) {
+    console.log(classId)
     return (
         <div className="flex flex-col relative overflow-scroll no-scrollbar gap-2">
             <RxCross2
@@ -10,24 +12,12 @@ export default function InfoList({ klasName, handleBack }) {
                 onClick={handleBack}
             />
             <h2 className="self-center text-2xl border-4 border-t-0 border-black px-3 py-1 rounded-b-md">
-                {klasName}
+                {ornaments[classId]?.name}
             </h2>
             <FcInfo size="1.5em" className="absolute ml-2 mt-2" />
+            <img src={ornaments[classId]?.image} className='h-40 mx-auto rounded-lg'/>
             <p>
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd
+                {ornaments[classId]?.description}
             </p>
         </div>
     )
