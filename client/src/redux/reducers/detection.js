@@ -3,8 +3,8 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
     image: null,
     video: null,
-    classes: [],
-    caste: [],
+    caste: null,
+    detected: false,
 }
 
 const detectionSlice = createSlice({
@@ -16,6 +16,7 @@ const detectionSlice = createSlice({
         },
         removeImage: state => {
             state.image = null
+            state.detected = false
         },
     },
 })
