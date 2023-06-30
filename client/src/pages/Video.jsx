@@ -1,13 +1,27 @@
-import { useState } from 'react'
-import VideoResult from '../components/VideoResult'
+import { useState, useRef } from 'react'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { GrClear } from 'react-icons/gr'
 import UploadCard from '../components/UploadCard'
+import inferEthnicity from '../utils/inferCulture'
+import { BoundingBox } from '../components/BoundingBox'
+import { BiSolidUpArrow } from 'react-icons/bi'
+import { Link } from 'react-router-dom'
+import DetectionList from '../components/DetectionList'
+import InfoList from '../components/InfoList'
 
 const VideoPage = () => {
     const [file, setFile] = useState()
     const [videoBlob, setVideoBlob] = useState()
-    const [predictedResult, setPredictedResult] = useState()
+    const [data, setData] = useState()
+    const [predictedClasses, setPredictedClasses] = useState(null)
+    const [currentFrame, setCurrentFrame] = useState(0)
+    const [timer, setTimer] = useState(-1)
+    const [relativePos, setRelativePos] = useState()
+    const [inferedEthnicity, setInferedEthnicity] = useState({
+        name: null,
+        id: null,
+    })
+    const [noInfo, setNoInfo] = useState(null)
 
     const loadVideo = e => {
         setFile(e.target.files[0])
@@ -16,19 +30,48 @@ const VideoPage = () => {
         reader.readAsDataURL(e.target.files[0])
     }
 
+    const hideClass = id => {
+        setPredictedClasses(oldData => {
+            const newData = {}
+            for (let i in oldData) {
+                const d = oldData[i]
+                newData[d.classId] = {
+                    classId: d.classId,
+                    name: d.name,
+                    show: d.classId == id ? !d.show : d.show,
+                }
+            }
+            console.log({ oldData, newData, id })
+            return newData
+        })
+    }
+
     const predict = () => {
         const data = new FormData()
         data.append('vid', file)
         fetch('/api/video', { method: 'POST', body: data }).then(async res => {
             if (res.status == 200) {
                 const data = await res.json()
-                setPredictedResult(data)
+                setData(data)
+                setPredictedClasses(
+                    data.classes?.reduce(
+                        (accum, value) => ({
+                            ...accum,
+                            [value[0]]: {
+                                classId: value[0],
+                                name: value[1],
+                                show: true,
+                            },
+                        }),
+                        {}
+                    )
+                )
             }
         })
     }
 
-    if (predictedResult != undefined)
-        return <VideoResult data={predictedResult} video={videoBlob} />
+    const parentRef = useRef()
+    const vidRef = useRef()
 
     return (
         <>
@@ -39,22 +82,147 @@ const VideoPage = () => {
                     accept="video/*"
                 />
             ) : (
-                <div className="h-full w-full flex flex-col justify-center gap-2">
-                    <div className="h-1/2 relative">
+                <div className="flex flex-col h-full w-full">
+                    <div className="relative mt-10 h-1/2" ref={parentRef}>
                         <video
                             src={videoBlob}
                             className="h-full absolute m-auto inset-0"
                             controls={true}
-                        />
-                    </div>
-                    <div className="flex gap-x-5 justify-center">
-                        <AiOutlineCloudUpload size="2em" onClick={predict} />
-                        <GrClear
-                            size="2em"
-                            onClick={() => {
-                                setFile(undefined)
+                            ref={vidRef}
+                            onPlay={() => {
+                                console.log('Playying', {
+                                    parentRef: parentRef.current,
+                                    vidRef: vidRef.current,
+                                })
+                                const parentPos =
+                                    parentRef.current?.getBoundingClientRect()
+                                const childPos =
+                                    vidRef.current?.getBoundingClientRect()
+                                if (!parentPos || !childPos)
+                                    setRelativePos(undefined)
+                                else
+                                    setRelativePos({
+                                        left: childPos.left - parentPos.left,
+                                        top: childPos.top - parentPos.top,
+                                        right: parentPos.right - childPos.right,
+                                        bottom:
+                                            parentPos.bottom - childPos.bottom,
+                                        width: childPos.width,
+                                        height: childPos.height,
+                                    })
+                                console.log({ timer })
+                                if (timer == -1) {
+                                    const t = setInterval(() => {
+                                        if (
+                                            !vidRef.current?.paused &&
+                                            data != null
+                                        ) {
+                                            const curFrame = Math.min(
+                                                Math.round(
+                                                    data.fps *
+                                                    vidRef.current
+                                                        ?.currentTime
+                                                ),
+                                                data.frames.length - 1
+                                            )
+                                            setCurrentFrame(curFrame)
+                                            setInferedEthnicity(
+                                                'Newari'
+                                                /* inferEthnicity( */
+                                                /*     data.frames[curFrame] */
+                                                /* ) */
+                                            )
+                                        }
+                                    }, (1 / data.fps) * 1000)
+                                    setTimer(t)
+                                }
+                            }}
+                            onEnded={() => {
+                                clearInterval(timer)
+                                setTimer(-1)
+                            }}
+                            onPause={() => {
+                                clearInterval(timer)
+                                setTimer(-1)
                             }}
                         />
+                        {relativePos != undefined &&
+                            currentFrame != undefined &&
+                            data != null && (
+                                <>
+                                    {data.frames[currentFrame]?.map(
+                                        (d, idx) => {
+                                            if (
+                                                predictedClasses[d.classId].show
+                                            )
+                                                return (
+                                                    <BoundingBox
+                                                        key={idx}
+                                                        relativePos={
+                                                            relativePos
+                                                        }
+                                                        detection={d}
+                                                        onClick={setNoInfo}
+                                                    />
+                                                )
+                                        }
+                                    )}
+                                </>
+                            )}
+                    </div>
+                    <div className="h-1/2 flex flex-col justify-between gap-3 flex-grow p-2 max-h-[50%] overflow-hidden">
+                        <div className="flex gap-x-5 self-center shadow-md border border-black rounded-md px-2 py-1">
+                            <AiOutlineCloudUpload
+                                size="2em"
+                                onClick={predict}
+                            />
+                            <GrClear
+                                size="2em"
+                                onClick={() => {
+                                    setFile(null)
+                                    setData(null)
+                                    setCurrentFrame(-1)
+                                }}
+                            />
+                        </div>
+                        {data != null && (
+                            <div className="flex flex-col overflow-hidden">
+                                <BiSolidUpArrow
+                                    className="self-center"
+                                    size="1.5rem"
+                                />
+                                <div
+                                    className={`border border-black border-x-4 border-t-4 flex flex-col gap-y-2 rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${noInfo != null ? 'pt-0' : ''
+                                        }`}
+                                >
+                                    {noInfo === null ? (
+                                        <>
+                                            <span className="border shadow-md px-3 py-2 w-fit rounded-lg self-center">
+                                                <Link
+                                                    to={`/culture/${inferedEthnicity.id}`}
+                                                >
+                                                    Ethnicity:{' '}
+                                                    {inferedEthnicity.name}
+                                                </Link>
+                                            </span>
+                                            <hr className="border-0 h-[4px] bg-slate-200 w-1/2 self-center" />
+                                            <DetectionList
+                                                items={Object.values(
+                                                    predictedClasses
+                                                )}
+                                                onInfo={setNoInfo}
+                                                handleClick={hideClass}
+                                            />
+                                        </>
+                                    ) : (
+                                        <InfoList
+                                            klasName={noInfo}
+                                            handleBack={() => setNoInfo(null)}
+                                        />
+                                    )}
+                                </div>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
