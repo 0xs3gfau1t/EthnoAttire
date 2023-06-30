@@ -171,7 +171,7 @@ export default function Image() {
                                     {noInfo === null ? (
                                         <>
                                             <span className='border shadow-md px-3 py-2 w-fit rounded-lg self-center'>
-                                                <Link to={`/info/culture/${inferedEthnicity.id}`}>
+                                                <Link to={`/culture/${inferedEthnicity.id}`}>
                                                     Ethnicity:{' '}
                                                     {inferedEthnicity.name}
                                                 </Link>

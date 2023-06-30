@@ -1,6 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useRef, useState } from 'react'
 import inferEthnicity from '../utils/inferCulture'
+import { Link } from 'react-router-dom'
 
 const VideoResult = ({ data, video }) => {
     const [currentFrame, setCurrentFrame] = useState(0)
@@ -10,6 +11,7 @@ const VideoResult = ({ data, video }) => {
 
     const vidRef = useRef(null)
     const previewRef = useRef(null)
+    const [inferedEthnicity, setInferedEthnicity] = useState({ name: null, id: null })
 
     return (
         <div className="h-full w-full">
@@ -39,6 +41,7 @@ const VideoResult = ({ data, video }) => {
                                     data.fps * vidRef.current?.currentTime
                                 )
                                 console.log('Playing frame', curFrame)
+                                setInferedEthnicity(inferEthnicity(curFrame))
                                 setCurrentFrame(curFrame)
                             }
                         }, (1 / data.fps) * 1000)
@@ -59,22 +62,18 @@ const VideoResult = ({ data, video }) => {
                                     key={idx}
                                     className="absolute border-2 border-white"
                                     style={{
-                                        left: `${
-                                            relativePos.left +
+                                        left: `${relativePos.left +
                                             d.box[0] * relativePos.width
-                                        }px`,
-                                        top: `${
-                                            relativePos.top +
+                                            }px`,
+                                        top: `${relativePos.top +
                                             d.box[1] * relativePos.height
-                                        }px`,
-                                        right: `${
-                                            relativePos.right +
+                                            }px`,
+                                        right: `${relativePos.right +
                                             (1 - d.box[2]) * relativePos.width
-                                        }px`,
-                                        bottom: `${
-                                            relativePos.bottom +
+                                            }px`,
+                                        bottom: `${relativePos.bottom +
                                             (1 - d.box[3]) * relativePos.height
-                                        }px`,
+                                            }px`,
                                     }}
                                 />
                             )
@@ -97,9 +96,11 @@ const VideoResult = ({ data, video }) => {
                 </div>
                 {!vidRef.current?.playing && (
                     <>
-                        <span>
-                            Ethnicity:{' '}
-                            {inferEthnicity(data.frames[currentFrame])}
+                        <span className='border shadow-md px-3 py-2 w-fit rounded-lg self-center'>
+                            <Link to={`/culture/${inferedEthnicity.id}`}>
+                                Ethnicity:{' '}
+                                {inferedEthnicity.name}
+                            </Link>
                         </span>
                         <h1 className="font-semibold">
                             Detected Items in this frame
