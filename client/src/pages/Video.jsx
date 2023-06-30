@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import VideoResult from '../components/VideoResult'
-import { dummy_response } from '../utils/constants'
 import { AiOutlineCloudUpload } from 'react-icons/ai'
 import { GrClear } from 'react-icons/gr'
 import UploadCard from '../components/UploadCard'
