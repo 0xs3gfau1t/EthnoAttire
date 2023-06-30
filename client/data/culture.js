@@ -27,7 +27,7 @@ const cultureList = {
     1: {
         name: 'Tharu',
         image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fi.pinimg.com%2Foriginals%2Fa2%2F64%2F64%2Fa264642a6a0f0064c691193159eeec01.jpg&f=1&nofb=1&ipt=39387052b9962f667ce94a61111652f5c46e1f8b6ca949df7beca5e6a336f35e&ipo=images',
-        origin: [ 
+        origin: [
             [85.0649, 27.1341], //'Bara',
             [85.3136, 27.0487], //'Rautahat',
             [86.3525, 26.7333], //'Siraha',
@@ -61,7 +61,15 @@ const cultureList = {
         name: 'Magar',
         image: 'https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2F4.bp.blogspot.com%2F-iMPXxy1m9Ao%2FUaxqxPw4yKI%2FAAAAAAAAACs%2FOcPIDEbKXwE%2Fs1600%2FWindows%2BPhoto%2BViewer%2BWallpaper.jpg&f=1&nofb=1&ipt=2ec49410117f1bb8b0047729019cfcec4f120cf994682c987c236b31418b7592&ipo=images',
         description: `The Magar, also spelled as Mangar, and Mongar, are ethnolinguistic groups indigenous to Western Nepal and Northeast India, representing 7.1% of Nepal's total population according to the 2011 Nepal census. The original home of the Magar people was to the west of Gandaki river and, roughly speaking, consisted of that portion of Nepal which lies between and around about Gulmi, Arghakhanchi, and Palpa`,
-        origin: [],
+        origin: [
+            [83.2201, 28.3491], //baglung
+            [83.8049, 28.0197], //syanja
+            [82.8548, 28.6641], //rukum
+            [84.2279, 27.9447], //tanahun
+            [83.3362, 28.6029], //myagdi
+            [83.2934, 28.0889], //gulmi
+            [82.6483, 28.3816], //rolpa
+        ],
     },
 }
 
