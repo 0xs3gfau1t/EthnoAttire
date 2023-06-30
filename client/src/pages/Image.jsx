@@ -177,7 +177,7 @@ export default function Image() {
                                         </>
                                     ) : (
                                         <InfoList
-                                            klasName={noInfo}
+                                            classId={noInfo}
                                             handleBack={() => setNoInfo(null)}
                                         />
                                     )}

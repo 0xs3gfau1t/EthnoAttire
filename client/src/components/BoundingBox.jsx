@@ -16,7 +16,7 @@ export const BoundingBox = ({ relativePos, detection, onClick }) => {
             <div
                 className="absolute border-2 rounded-sm cursor-pointer"
                 onClick={() => {
-                    onClick(detection.name)
+                    onClick(detection.classId)
                 }}
                 style={{
                     borderColor: detection.color,
