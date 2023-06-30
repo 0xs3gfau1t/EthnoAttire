@@ -57,7 +57,7 @@ const VideoResult = ({ data, video }) => {
                             return (
                                 <div
                                     key={idx}
-                                    className="absolute border border-white"
+                                    className="absolute border-2 border-white"
                                     style={{
                                         left: `${
                                             relativePos.left +

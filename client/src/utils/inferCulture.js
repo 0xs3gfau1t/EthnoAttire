@@ -3,6 +3,7 @@ import { ornaments } from '../../data/ornaments'
 const inferEthnicity = detections => {
     const totalConf = detections.reduce((accum, value) => {
         const culture = ornaments[value.classId].culture
+        if (culture == 'all') return accum
         return {
             ...accum,
             [culture]: (accum[value.classId] || 0) + value.confidence,
