@@ -3,6 +3,7 @@ from flask import Flask, request
 from PIL import Image
 import uuid
 import cv2
+import random
 
 app = Flask(__name__)
 
@@ -14,6 +15,7 @@ app = Flask(__name__)
 app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
 
 model = YOLO("./model.pt")
+colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(24)]
 
 
 @app.route("/api/image", methods=["POST"])
@@ -23,21 +25,30 @@ def predictImage():
     if image is None:
         return {"message": "No image received"}
 
-    result = model([Image.open(image)], conf=0.6)
-    predictedROI = result[0].boxes.xyxyn.tolist()
-    confScores = result[0].boxes.conf.tolist()
-    classes = result[0].boxes.cls.tolist()
-    prediction = []
-    for i in range(len(predictedROI)):
-        prediction.append(
+    result = model([Image.open(image)], conf=0.6)[0]
+
+    data = result.boxes.data.cpu().tolist()
+    h, w = result.orig_shape
+
+    names = result.names
+
+    r = []
+    for row in data:
+        box = [row[0] / w, row[1] / h, row[2] / w, row[3] / h]
+        conf = row[4]
+        classId = int(row[5])
+        name = names[classId]
+        r.append(
             {
-                "confidence": confScores[i],
-                "box": predictedROI[i],
-                "classId": int(classes[i]),
-                "name": result[0].names[classes[i]],
+                "box": box,
+                "confidence": conf,
+                "classId": classId,
+                "name": name,
+                "color": "#%02x%02x%02x" % tuple(colors[classId]),
             }
         )
-    return {"frame": prediction}
+
+    return {"frame": r}
 
 
 @app.route("/api/video", methods=["POST"])
@@ -62,21 +73,27 @@ def predictVideo():
         try:
             result = next(predicted)
 
-            boxes = result.boxes.xyxyn.tolist()
-            confidence = result.boxes.conf.tolist()
-            classes = result.boxes.cls.tolist()
-            for i in range(len(boxes)):
-                name = result.names[classes[i]]
+            data = result.boxes.data.cpu().tolist()
+            h, w = result.orig_shape
+
+            names = result.names
+
+            for row in data:
+                box = [row[0] / w, row[1] / h, row[2] / w, row[3] / h]
+                conf = row[4]
+                classId = int(row[5])
+                name = names[classId]
                 frameResult.append(
                     {
-                        "confidence": confidence[i],
-                        "box": boxes[i],
+                        "box": box,
+                        "confidence": conf,
+                        "classId": classId,
                         "name": name,
-                        "classId": int(classes[i]),
+                        "color": "#%02x%02x%02x" % tuple(colors[classId]),
                     }
                 )
+                uniqueClasses[classId] = name
 
-                uniqueClasses[int(classes[i])] = name
             frames.append(frameResult)
         except StopIteration:
             totalDetectedDistinctClasses = []

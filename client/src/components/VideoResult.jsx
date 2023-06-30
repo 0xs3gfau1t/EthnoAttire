@@ -2,6 +2,7 @@
 import { useRef, useState } from 'react'
 import inferEthnicity from '../utils/inferCulture'
 import { Link } from 'react-router-dom'
+import { BoundingBox } from './BoundingBox'
 
 const VideoResult = ({ data, video }) => {
     const [currentFrame, setCurrentFrame] = useState(0)
@@ -35,46 +36,41 @@ const VideoResult = ({ data, video }) => {
                                 width: childPos.width,
                                 height: childPos.height,
                             })
-                        const t = setInterval(() => {
-                            if (!vidRef.current?.paused) {
-                                const curFrame = Math.round(
-                                    data.fps * vidRef.current?.currentTime
-                                )
-                                console.log('Playing frame', curFrame)
-                                setInferedEthnicity(inferEthnicity(curFrame))
-                                setCurrentFrame(curFrame)
-                            }
-                        }, (1 / data.fps) * 1000)
-                        setTimer(t)
+                        if (timer == -1) {
+                            const t = setInterval(() => {
+                                if (!vidRef.current?.paused) {
+                                    const curFrame = Math.min(
+                                        Math.round(
+                                            data.fps *
+                                                vidRef.current?.currentTime
+                                        ),
+                                        data.frames.length - 1
+                                    )
+                                    setCurrentFrame(curFrame)
+                                    setInferedEthnicity(inferEthnicity(data.frames[curFrame]))
+                                }
+                            }, (1 / data.fps) * 1000)
+                            setTimer(t)
+                        }
                     }}
                     onEnded={() => {
                         clearInterval(timer)
+                        setTimer(-1)
                     }}
                     onPause={() => {
                         clearInterval(timer)
+                        setTimer(-1)
                     }}
                 />
                 {relativePos != undefined && currentFrame != undefined && (
                     <>
                         {data.frames[currentFrame]?.map((d, idx) => {
                             return (
-                                <div
+                                <BoundingBox
                                     key={idx}
-                                    className="absolute border-2 border-white"
-                                    style={{
-                                        left: `${relativePos.left +
-                                            d.box[0] * relativePos.width
-                                            }px`,
-                                        top: `${relativePos.top +
-                                            d.box[1] * relativePos.height
-                                            }px`,
-                                        right: `${relativePos.right +
-                                            (1 - d.box[2]) * relativePos.width
-                                            }px`,
-                                        bottom: `${relativePos.bottom +
-                                            (1 - d.box[3]) * relativePos.height
-                                            }px`,
-                                    }}
+                                    relativePos={relativePos}
+                                    detection={d}
+                                    idx={idx}
                                 />
                             )
                         })}

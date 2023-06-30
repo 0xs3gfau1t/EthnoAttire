@@ -18,8 +18,6 @@ const VideoPage = () => {
     }
 
     const predict = () => {
-        setPredictedResult(dummy_response)
-        return
         const data = new FormData()
         data.append('vid', file)
         fetch('/api/video', { method: 'POST', body: data }).then(async res => {
