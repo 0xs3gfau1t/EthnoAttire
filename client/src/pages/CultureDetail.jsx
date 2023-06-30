@@ -1,7 +1,11 @@
 import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
 
-const Culture = () => {
+import { cultureList } from '../../data/culture'
+
+const CultureDetail = () => {
     const [collapse, setCollapse] = useState([true, false, false])
+    let { id } = useParams()
 
     const updateCol = idx => {
         let update = [...collapse]
@@ -11,6 +15,9 @@ const Culture = () => {
 
     return (
         <div className="flex flex-col gap-4">
+            <Link className="text-sm bold text-blue-600" to={'/culture'}>
+                {'<< Back to All Culture'}
+            </Link>
             <h1 className="text-xl bold">Newari Culture</h1>
             <div>Map Goes Here</div>
             <div className="section ">
@@ -20,15 +27,7 @@ const Culture = () => {
                 >
                     Description {collapse[0] ? '▴' : '▾'}
                 </h2>
-                {collapse[0] && (
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing
-                        elit. Suscipit animi laborum unde quo distinctio,
-                        repellat sed perspiciatis minus esse sunt accusantium
-                        optio, atque a enim ipsum deleniti facilis veritatis
-                        placeat!
-                    </p>
-                )}
+                {collapse[0] && <p>{cultureList[id]['description']}</p>}
             </div>
             <div className="section">
                 <h2
@@ -83,4 +82,4 @@ const Culture = () => {
     )
 }
 
-export default Culture
+export default CultureDetail
