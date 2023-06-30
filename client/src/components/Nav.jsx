@@ -8,7 +8,7 @@ import {
 
 export default function Nav() {
     return (
-        <div className="flex flex-row justify-around h-full items-center bg-gray-200">
+        <div className="flex flex-row justify-around h-full items-center">
             <Link to={'/'} className="flex flex-col items-center">
                 <AiOutlineHome className="text-4xl" />
                 <span>Home</span>
