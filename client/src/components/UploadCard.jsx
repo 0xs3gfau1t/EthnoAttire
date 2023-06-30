@@ -16,14 +16,14 @@ export default function UploadCard({ handleChange, image, accept }) {
                 className="h-1/2 w-full flex flex-col items-center"
             >
                 <img src={image} />
-                <button
+                <div
                     className={`${accept.includes('video')
                             ? 'bg-[#d6a5de]'
                             : 'bg-blue-100'
-                        } px-4 py-2 rounded-md`}
+                        } px-4 py-2 rounded-md cursor-pointer`}
                 >
                     Upload
-                </button>
+                </div>
             </label>
         </div>
     )

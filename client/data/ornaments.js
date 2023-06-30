@@ -139,7 +139,7 @@ const ornaments = {
     },
     16: {
         name: 'dori',
-        gender: 'female',
+        gender: '',
         culture: 'all',
         cultureId: 2,
         description:

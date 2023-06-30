@@ -38,9 +38,9 @@ const Map = ({ toHigh }) => {
     const zoomLevel = 6.5
 
     const districtStyle = {
-        color: 'red',
-        fillColor: 'blue',
-        weight: 1,
+        color: 'black',
+        fillColor: 'transparent',
+        weight: 0.5,
         fillOpacity: 0.5,
     }
 
@@ -48,7 +48,7 @@ const Map = ({ toHigh }) => {
         color: 'red',
         weight: 2,
         fillColor: 'orange',
-        fillOpacity: 0.8,
+        fillOpacity: 0.4,
     }
 
     useEffect(() => {

@@ -10,7 +10,7 @@ const HomePage = () => {
             <h1 className="text-4xl">ETHNO ATTIRE</h1>
             <img src="/home.gif" className="rounded-2xl" />
             <h2 className="text-2xl font-semibold">
-                Identify cultures in a whimp
+                Identify cultures in a whim
             </h2>
             <h3 className="text-justify px-4">
                 Designed to preserve the rich cultural heritage of Nepal, our
