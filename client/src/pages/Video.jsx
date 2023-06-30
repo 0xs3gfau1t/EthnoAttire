@@ -1,6 +1,9 @@
 import { useState } from 'react'
 import VideoResult from '../components/VideoResult'
 import { dummy_response } from '../utils/constants'
+import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { GrClear } from 'react-icons/gr'
+import UploadCard from '../components/UploadCard'
 
 const VideoPage = () => {
     const [file, setFile] = useState()
@@ -31,46 +34,34 @@ const VideoPage = () => {
         return <VideoResult data={predictedResult} video={videoBlob} />
 
     return (
-        <div className="h-full w-full flex flex-col">
-            {file != undefined && (
-                <>
-                    <video src={videoBlob} className="h-1/2 m-auto" controls />
-                    <span className="self-center">{file?.name}</span>
-                </>
+        <>
+            {file == undefined ? (
+                <UploadCard
+                    handleChange={loadVideo}
+                    image="assets/video.svg"
+                    accept="video/*"
+                />
+            ) : (
+                <div className="h-full w-full flex flex-col justify-center gap-2">
+                    <div className="h-1/2 relative">
+                        <video
+                            src={videoBlob}
+                            className="h-full absolute m-auto inset-0"
+                            controls={true}
+                        />
+                    </div>
+                    <div className="flex gap-x-5 justify-center">
+                        <AiOutlineCloudUpload size="2em" onClick={predict} />
+                        <GrClear
+                            size="2em"
+                            onClick={() => {
+                                setFile(undefined)
+                            }}
+                        />
+                    </div>
+                </div>
             )}
-            <label
-                htmlFor="addVideo"
-                className="w-full h-1/2 flex flex-col items-center gap-4"
-            >
-                {file == undefined ? (
-                    <>
-                        <img src="assets/video.svg" />
-                        <div className="bg-blue-300 px-4 py-2 rounded-md cursor-pointer">
-                            Load Video
-                        </div>
-                    </>
-                ) : (
-                    <>
-                        <button className="bg-blue-300 px-4 py-2 rounded-md">
-                            Change Video
-                        </button>
-                        <button
-                            className="bg-blue-300 px-4 py-2 rounded-md"
-                            onClick={predict}
-                        >
-                            Predict
-                        </button>
-                    </>
-                )}
-            </label>
-            <input
-                id="addVideo"
-                type="file"
-                accept=".mp4"
-                className="hidden"
-                onChange={loadVideo}
-            />
-        </div>
+        </>
     )
 }
 
