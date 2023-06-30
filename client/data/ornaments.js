@@ -124,7 +124,7 @@ const ornaments = {
     16: {
         name: 'dori',
         gender: 'female',
-        culture: 'all',
+        culture: '',
         description:
             'Decorative thread tied on hair by women of many cultures in nepali.',
     },
@@ -170,7 +170,7 @@ const ornaments = {
     22: {
         name: 'naugedi',
         gender: 'female',
-        culture: 'all',
+        culture: '',
         image: '#',
         description: '',
     },
