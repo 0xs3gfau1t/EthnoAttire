@@ -189,7 +189,7 @@ const ornaments = {
     22: {
         name: 'naugedi',
         gender: 'female',
-        culture: 'all',
+        culture: '',
         image: '#',
         description: '',
     },

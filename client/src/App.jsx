@@ -6,6 +6,7 @@ import VideoPage from './pages/Video'
 import CultureDetail from './pages/CultureDetail'
 import './index.css'
 import Culture from './pages/Culture'
+import Map from './pages/Map'
 
 export default function App() {
     return (
@@ -16,10 +17,8 @@ export default function App() {
                     <Route path="image" element={<ImagePage />} />
                     <Route path="video" element={<VideoPage />} />
                     <Route path="culture" element={<Culture />} />
-                    <Route
-                        path="info/culture/:id"
-                        element={<CultureDetail />}
-                    />
+                    <Route path="culture/:id" element={<CultureDetail />} />
+                    <Route path="map" element={<Map />} />
                 </Route>
             </Routes>
         </>

@@ -7,7 +7,7 @@ const Layout = () => {
             <main className="h-[calc(100%-5rem)]">
                 <Outlet />
             </main>
-            <footer className="h-20 border-t border-black">
+            <footer className="h-20 border-t border-black fixed bottom-0 w-full">
                 <Nav />
             </footer>
         </div>

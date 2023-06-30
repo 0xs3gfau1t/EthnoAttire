@@ -8,7 +8,7 @@ import {
 
 export default function Nav() {
     return (
-        <div className="flex flex-row justify-around h-full items-center">
+        <div className="flex flex-row justify-around h-full items-center bg-gray-200">
             <Link to={'/'} className="flex flex-col items-center">
                 <AiOutlineHome className="text-4xl" />
                 <span>Home</span>
@@ -21,7 +21,7 @@ export default function Nav() {
                 <AiOutlineVideoCamera className="text-4xl" />
                 <span>Video</span>
             </Link>
-            <Link to={'/info'} className="flex flex-col items-center">
+            <Link to={'/culture'} className="flex flex-col items-center">
                 <AiOutlineInfoCircle className="text-4xl" />
                 <span>Info</span>
             </Link>
