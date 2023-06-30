@@ -13,22 +13,7 @@ export default function InfoList({ klasName, handleBack }) {
                 {klasName}
             </h2>
             <FcInfo size="1.5em" className="absolute ml-2 mt-2" />
-            <p>
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd lksdjflkjsdflsjkdflkksjd
-                lksdjflkjsdflsjkdflkksjd
-            </p>
+            <p></p>
         </div>
     )
 }

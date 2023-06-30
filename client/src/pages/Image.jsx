@@ -30,7 +30,10 @@ export default function Image() {
     const [detectedItems, setDetectedItems] = useState([])
     const [detected, setDetected] = useState(false)
     const [noInfo, setNoInfo] = useState(null)
-    const [inferedEthnicity, setInferedEthnicity] = useState({name: null, id: null})
+    const [inferedEthnicity, setInferedEthnicity] = useState({
+        name: null,
+        id: null,
+    })
 
     const handleChange = e => {
         const reader = new FileReader()
@@ -153,13 +156,15 @@ export default function Image() {
                                 >
                                     {noInfo === null ? (
                                         <>
-                                            <span className='border shadow-md px-3 py-2 w-fit rounded-lg self-center'>
-                                                <Link to={`/culture/${inferedEthnicity.id}`}>
+                                            <span className="border shadow-md px-3 py-2 w-fit rounded-lg self-center">
+                                                <Link
+                                                    to={`/culture/${inferedEthnicity.id}`}
+                                                >
                                                     Ethnicity:{' '}
                                                     {inferedEthnicity.name}
                                                 </Link>
                                             </span>
-                                            <hr className='border-0 h-[4px] bg-slate-200 w-1/2 self-center'/>
+                                            <hr className="border-0 h-[4px] bg-slate-200 w-1/2 self-center" />
                                             <DetectionList
                                                 items={unique(predictedClasses)}
                                                 handleClick={classClickHandler}

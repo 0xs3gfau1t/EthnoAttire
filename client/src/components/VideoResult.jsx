@@ -12,7 +12,10 @@ const VideoResult = ({ data, video }) => {
 
     const vidRef = useRef(null)
     const previewRef = useRef(null)
-    const [inferedEthnicity, setInferedEthnicity] = useState({ name: null, id: null })
+    const [inferedEthnicity, setInferedEthnicity] = useState({
+        name: null,
+        id: null,
+    })
 
     return (
         <div className="h-full w-full">
@@ -48,7 +51,9 @@ const VideoResult = ({ data, video }) => {
                                     )
                                     setCurrentFrame(curFrame)
                                     console.log(curFrame)
-                                    setInferedEthnicity(inferEthnicity(data.frames[curFrame]))
+                                    setInferedEthnicity(
+                                        inferEthnicity(data.frames[curFrame])
+                                    )
                                 }
                             }, (1 / data.fps) * 1000)
                             setTimer(t)
@@ -93,10 +98,9 @@ const VideoResult = ({ data, video }) => {
                 </div>
                 {!vidRef.current?.playing && (
                     <>
-                        <span className='border shadow-md px-3 py-2 w-fit rounded-lg self-center'>
+                        <span className="border shadow-md px-3 py-2 w-fit rounded-lg self-center">
                             <Link to={`/culture/${inferedEthnicity?.id}`}>
-                                Ethnicity:{' '}
-                                {inferedEthnicity?.name}
+                                Ethnicity: {inferedEthnicity?.name}
                             </Link>
                         </span>
                         <h1 className="font-semibold">

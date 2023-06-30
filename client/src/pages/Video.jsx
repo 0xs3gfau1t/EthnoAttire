@@ -21,12 +21,14 @@ const VideoPage = () => {
         setPredicting(true)
         const data = new FormData()
         data.append('vid', file)
-        fetch('/api/video', { method: 'POST', body: data }).then(async res => {
-            if (res.status == 200) {
-                const data = await res.json()
-                setPredictedResult(data)
-            }
-        }).finally( () => setPredicting(false))
+        fetch('/api/video', { method: 'POST', body: data })
+            .then(async res => {
+                if (res.status == 200) {
+                    const data = await res.json()
+                    setPredictedResult(data)
+                }
+            })
+            .finally(() => setPredicting(false))
     }
 
     if (predictedResult != undefined)
@@ -50,7 +52,17 @@ const VideoPage = () => {
                         />
                     </div>
                     <div className="flex gap-x-5 justify-center">
-                    {!predicting ? <AiOutlineCloudUpload size="2em" onClick={predict} /> : <AiOutlineSync className='animate-spin' size='2em'/> }
+                        {!predicting ? (
+                            <AiOutlineCloudUpload
+                                size="2em"
+                                onClick={predict}
+                            />
+                        ) : (
+                            <AiOutlineSync
+                                className="animate-spin"
+                                size="2em"
+                            />
+                        )}
                         <GrClear
                             size="2em"
                             onClick={() => {

@@ -3,7 +3,7 @@ import { ornaments } from '../../data/ornaments'
 const inferEthnicity = detections => {
     const mapOfCultureToCultureId = {}
     const totalConf = detections.reduce((accum, value) => {
-        const {culture, cultureId} = ornaments[value.classId]
+        const { culture, cultureId } = ornaments[value.classId]
         mapOfCultureToCultureId[culture] = cultureId
         if (culture == 'all') return accum
         return {
@@ -22,7 +22,7 @@ const inferEthnicity = detections => {
             max.culture = entries[i][0]
         }
     }
-    return {name: max.culture, id: mapOfCultureToCultureId[max.culture]}
+    return { name: max.culture, id: mapOfCultureToCultureId[max.culture] }
 }
 
 export default inferEthnicity
