@@ -1,4 +1,5 @@
 import { AiOutlineInfoCircle } from 'react-icons/ai'
+import { MdOutlineVisibilityOff, MdOutlineVisibility } from 'react-icons/md'
 
 export default function DetectionList({ items, handleClick, onInfo }) {
     if (!items || items?.length == 0)
@@ -13,7 +14,7 @@ export default function DetectionList({ items, handleClick, onInfo }) {
                         }`}
                 >
                     <li
-                        onClick={() => handleClick(item.classId)}
+                        onClick={() => onInfo(item.classId)}
                         className="cursor-pointer"
                     >
                         <span className="text-sm font-bold">
@@ -21,10 +22,17 @@ export default function DetectionList({ items, handleClick, onInfo }) {
                         </span>
                         : <span>{item.name}</span>
                     </li>
-                    <AiOutlineInfoCircle
-                        onClick={() => onInfo(item.classId)}
-                        className="cursor-pointer"
-                    />
+                    {item.show ? (
+                        <MdOutlineVisibility
+                            onClick={() => handleClick(item.classId)}
+                            className="cursor-pointer"
+                        />
+                    ) : (
+                        <MdOutlineVisibilityOff
+                            onClick={() => handleClick(item.classId)}
+                            className="cursor-pointer"
+                        />
+                    )}
                 </div>
             ))}
         </ul>

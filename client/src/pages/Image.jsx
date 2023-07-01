@@ -1,5 +1,5 @@
 import UploadCard from '../components/UploadCard'
-import { AiOutlineCloudUpload } from 'react-icons/ai'
+import { AiOutlineCloudUpload, AiOutlineSync } from 'react-icons/ai'
 import { useRef, useState } from 'react'
 import { GrClear } from 'react-icons/gr'
 import inferEthnicity from '../utils/inferCulture'
@@ -14,6 +14,7 @@ export default function Image() {
     const [targetImage, setTargetImage] = useState(null)
     const [imageFile, setImageFile] = useState(null)
 
+    const [predicting, setPredicting] = useState(false)
     const [predictedClasses, setPredictedClasses] = useState(null)
     const [detectedItems, setDetectedItems] = useState([])
     const [detected, setDetected] = useState(false)
@@ -48,6 +49,7 @@ export default function Image() {
     }
 
     function handleSubmit() {
+        setPredicting(true)
         const data = new FormData()
         data.append('img', imageFile)
         fetch('/api/image', {
@@ -73,6 +75,7 @@ export default function Image() {
                 console.error(e)
                 alert('Detection failed')
             })
+            .finally(() => setPredicting(false))
     }
 
     const parentRef = useRef(null)
@@ -106,6 +109,9 @@ export default function Image() {
                 />
             ) : (
                 <div className="flex flex-col h-full w-full">
+                    <div className="w-full text-center border-b border-black text-base">
+                        PHOTO RESULT
+                    </div>
                     <div className="relative mt-10 h-1/2" ref={parentRef}>
                         <img
                             src={targetImage}
@@ -129,12 +135,19 @@ export default function Image() {
                             </>
                         )}
                     </div>
-                    <div className="h-1/2 flex flex-col justify-between gap-3 flex-grow p-2 max-h-[50%] overflow-hidden">
+                    <div className="h-1/2 flex flex-col justify-start gap-3 flex-grow p-2 max-h-[50%] overflow-hidden">
                         <div className="flex gap-x-5 self-center shadow-md border border-black rounded-md px-2 py-1">
-                            <AiOutlineCloudUpload
-                                size="2em"
-                                onClick={handleSubmit}
-                            />
+                            {!predicting ? (
+                                <AiOutlineCloudUpload
+                                    size="2em"
+                                    onClick={handleSubmit}
+                                />
+                            ) : (
+                                <AiOutlineSync
+                                    size="2em"
+                                    className="animate-spin"
+                                />
+                            )}
                             <GrClear
                                 size="2em"
                                 onClick={() => {
@@ -147,12 +160,8 @@ export default function Image() {
                         </div>
                         {detected && (
                             <div className="flex flex-col overflow-hidden">
-                                <BiSolidUpArrow
-                                    className="self-center"
-                                    size="1.5rem"
-                                />
                                 <div
-                                    className={`border border-black border-x-4 border-t-4 flex flex-col gap-y-2 rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${noInfo != null ? 'pt-0' : ''
+                                    className={`border border-black shadow-2xl flex flex-col gap-y-2 rounded-md transition duration-300 no-scrollbar p-2 overflow-hidden max-h-full ${noInfo != null ? 'pt-0' : ''
                                         }`}
                                 >
                                     {noInfo === null ? (
