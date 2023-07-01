@@ -22,7 +22,7 @@ export default function DetectionList({ items, handleClick, onInfo }) {
                         : <span>{item.name}</span>
                     </li>
                     <AiOutlineInfoCircle
-                        onClick={() => onInfo(item.name)}
+                        onClick={() => onInfo(item.classId)}
                         className="cursor-pointer"
                     />
                 </div>
