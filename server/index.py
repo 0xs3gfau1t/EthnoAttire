@@ -12,7 +12,7 @@ app = Flask(__name__)
 # Better to do this way than to rely on content-length
 # Or by reading the whole file in memory and counting
 #
-app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024
+""" app.config["MAX_CONTENT_LENGTH"] = 10 * 1024 * 1024 """
 
 model = YOLO("./model.pt")
 colors = [[random.randint(0, 255) for _ in range(3)] for _ in range(24)]
@@ -118,4 +118,4 @@ def home():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=3000, debug=True)
+    app.run(host="0.0.0.0", port=3000, debug=False)
